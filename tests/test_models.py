@@ -140,13 +140,43 @@ class TestProductModel(unittest.TestCase):
 
 
     def test_delete_a_product(self):
-        pass 
+        product = ProductFactory() 
+        product.create() 
+        self.assertEqual(len(Product.all()), 1)
+
+        product.delete() 
+        self.assertEqual(len(Product.all()), 0)
+
 
     def test_list_all_products(self): 
-        pass 
+        self.assertEqual(Product.all(), [])
+
+        for i in range(5):
+            product = ProductFactory() 
+            product.create() 
+
+        self.assertEqual(len(Product.all()), 5) 
+
 
     def test_find_product_by_name(self):
-        pass 
+        products = ProductFactory.create_batch(5) 
+        for product in products:
+            product.create() 
+
+        name = products[0].name 
+        count = 0 
+
+        for product in products:
+            if product.name = name:
+                count += 1 
+
+        found_product = Product.find_by_name(name)
+        self.assertEqual(found.count(), count)
+        
+        for product in found:
+            self.assertEqual(product.name, name)
+
+
 
     def test_find_product_by_availability(self):
         pass 
