@@ -104,3 +104,53 @@ class TestProductModel(unittest.TestCase):
     #
     # ADD YOUR TEST CASES HERE
     #
+
+    def test_read_a_product(self):
+        product = ProductFactory() 
+        product.id = None 
+
+        product.create() 
+        self.assertIsNotNone(product.id) 
+
+        found = Product.find(product.id)
+        self.assertEqual(found.id, product.id)
+        self.assertEqual(found,name, product.name)
+        self.assertEqual(found.price, product.price)
+
+
+    def test_update_a_product(self):
+        product = ProductFactory() 
+        product.id = None 
+        product.create() 
+        self.assertIsNotNone(product.id) 
+
+        old_desc = "old"
+        product.description = old_desc 
+        old_id = product.id 
+
+        product.update() 
+        self.assertEqual(product.id, original_id)
+        self.assertEqual(product.description, old_desc)
+
+        products = Product.all()
+        self.assertEqual(len(products), 1)
+        new_prod = products[0]
+        self.assertEqual(new_prod.id, old_id)
+        self.assertEqual(new_prod.description, old_desc)
+
+
+    def test_delete_a_product(self):
+        pass 
+
+    def test_list_all_products(self): 
+        pass 
+
+    def test_find_product_by_name(self):
+        pass 
+
+    def test_find_product_by_availability(self):
+        pass 
+
+    def test_find_product_by_category(self):
+        pass 
+
