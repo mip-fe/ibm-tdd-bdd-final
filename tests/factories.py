@@ -51,8 +51,8 @@ class ProductFactory(factory.Factory):
         Category.AUTOMOTIVE,
         Category.TOOLS, 
     ]
-    name = FuzzyChoice(names_arr) 
-    description = FuzzyChoice(["desc1", "desc2"])
-    price = FuzzyDecimal(1, 100000)
-    available = FuzzyChoice([True, False])
-    category = FuzzyChoice(categories)
+    name = FuzzyChoice(choices = names_arr) 
+    description = factory.Faker("text")
+    price = FuzzyDecimal(0.5, 100000, 2)
+    available = FuzzyChoice(choices = [True, False])
+    category = FuzzyChoice(choices categories)
