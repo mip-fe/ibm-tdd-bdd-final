@@ -196,7 +196,20 @@ class TestProductRoutes(TestCase):
 
         self.assertEqual(response.get_json()["description"], "null") 
 
+
+    def test_update_product_not_found(self):
+        test_product = ProductFactory() 
+        response = self.client.post(BASE_URL, json = test_product.serialize())
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED) 
+
+        new_product = response.get_json() 
+        new_product["description"] = "null"
+        response = self.client.put(f"{BASE_URL}/0", json = new_product)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertIn("was not found", response.get_json()["message"])
     
+
     def test_delete_product(self):
         products = self._create_products(5) 
         product_count = self.get_product_count() 
@@ -209,7 +222,17 @@ class TestProductRoutes(TestCase):
         response = self.client.get(f"{BASE_URL}/{test_product.id}")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(product_count - 1, self.get_product_count())
-        
+
+
+    def test_delete_product_not_found(self):
+        products = self._create_products(5) 
+        product_count = self.get_product_count() 
+        test_product = products[0] 
+        response = self.client.delete(f"{BASE_URL}/0")
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertIn("was not found", response.get_json()["message"])   
+
 
     def test_get_product_list(self): 
         self._create_products(5)
