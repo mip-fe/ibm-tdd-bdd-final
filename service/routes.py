@@ -98,9 +98,28 @@ def create_products():
 # L I S T   A L L   P R O D U C T S
 ######################################################################
 
-#
-# PLACE YOUR CODE TO LIST ALL PRODUCTS HERE
-#
+@app.route("/products", method = ['GET'])
+def list_products(): 
+    name = request.args.get("name")
+    category = request.args.get("category")
+    available = request.args.get("available")
+    products = [] 
+
+    if name:
+        products = Product.find_by_name(name)
+    elif category:
+        category_value = getattr(Category, category.upper())
+        products = Product.find_by_category(category_value)
+    elif available:
+        available_value = available.lower() in ["true", "yes", "1"]
+        products = Product.find_by_availability(availability)
+    else: 
+        products = Product.all() 
+
+    results = [product.serialize() for product in products]
+    return results, status.HTTP_200_OK
+
+
 
 ######################################################################
 # R E A D   A   P R O D U C T
@@ -138,6 +157,13 @@ def update_products(product_id):
 ######################################################################
 
 
-#
-# PLACE YOUR CODE TO DELETE A PRODUCT HERE
-#
+@app.route("/products/<product_id>", methods = ['DELETE'])
+def delete_products(product_id):
+    product = Product.find(product_id)
+
+    if product:
+        product.delete() 
+    else: 
+        abort(status.HTTP_404_NOT_FOUND, "Product was not found")
+
+    return "", status.HTTP_204_NO_CONTENT
