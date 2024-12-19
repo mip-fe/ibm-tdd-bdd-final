@@ -198,11 +198,27 @@ class TestProductRoutes(TestCase):
 
     
     def test_delete_product(self):
-        pass 
-         
+        products = self._create_products(5) 
+        product_count = self.get_product_count() 
+        test_product = products[0] 
+        response = self.client.delete(f"{BASE_URL}/{test_product.id}")
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(len(response.data), 0)
+
+        response = self.client.get(f"{BASE_URL}/{test_product.id}")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(product_count - 1, self.get_product_count())
+        
 
     def test_get_product_list(self): 
-        pass 
+        self._create_products(5)
+        response = self.client.get(BASE_URL)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), 5) 
+
 
     def test_query_by_name(self): 
         pass 
