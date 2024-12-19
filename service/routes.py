@@ -20,7 +20,7 @@ Product Store Service with UI
 """
 from flask import jsonify, request, abort
 from flask import url_for  # noqa: F401 pylint: disable=unused-import
-from service.models import Product
+from service.models import Product, Category 
 from service.common import status  # HTTP Status Codes
 from . import app
 
@@ -112,7 +112,7 @@ def list_products():
         products = Product.find_by_category(category_value)
     elif available:
         available_value = available.lower() in ["true", "yes", "1"]
-        products = Product.find_by_availability(availability)
+        products = Product.find_by_availability(available_value)
     else: 
         products = Product.all() 
 
