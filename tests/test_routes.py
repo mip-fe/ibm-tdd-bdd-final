@@ -28,6 +28,8 @@ import os
 import logging
 from decimal import Decimal
 from unittest import TestCase
+from urllib.parse import quote_plus
+
 from service import app
 from service.common import status
 from service.models import db, init_db, Product
@@ -193,6 +195,23 @@ class TestProductRoutes(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         self.assertEqual(response.get_json()["description"], "null") 
+
+    
+    def test_delete_product(self):
+        pass 
+         
+
+    def test_get_product_list(self): 
+        pass 
+
+    def test_query_by_name(self): 
+        pass 
+    
+    def test_query_by_category(self): 
+        pass 
+
+    def test_query_by_availability(self): 
+        pass 
 
 
     ######################################################################
