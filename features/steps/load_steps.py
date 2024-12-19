@@ -46,15 +46,15 @@ def step_impl(context):
     #
     # load the database with new products
     #
-    for row in context.table:
-        for row in context.table:
-            info = {
-                "name": row['name'],
-                "description": row['description'],
-                "price": row['price'],
-                "available": row['available'] in ['True', 'true', '1'],
-                "category": row['category']
-            } 
 
-            response = requests.post(rest_endpoint, json = info)
-            assert response.status_code == HTTP_201_CREATED
+    for row in context.table:
+        info = {
+            "name": row['name'],
+            "description": row['description'],
+            "price": row['price'],
+            "available": row['available'] in ['True', 'true', '1'],
+            "category": row['category']
+        } 
+
+        response = requests.post(rest_endpoint, json = info)
+        assert response.status_code == HTTP_201_CREATED
