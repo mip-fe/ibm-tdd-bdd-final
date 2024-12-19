@@ -57,4 +57,4 @@ def step_impl(context):
             } 
 
             response = requests.post(rest_endpoint, json = info)
-            assert response.status_code = HTTP_200_OK
+            assert response.status_code == HTTP_200_OK
